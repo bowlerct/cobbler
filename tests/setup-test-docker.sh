@@ -28,7 +28,7 @@ sed -e "s|/var/lib/tftpboot|/srv/tftpboot|g" -i cobbler/settings.py config/cobbl
 
 # Install and upgrade all dependecys
 pip3 install --upgrade pip
-pip3 install .[lint,test]
+pip3 install .[lint,test,pytest-django]
 
 # Install cobbler
 make install
