@@ -13,9 +13,9 @@ def test_redirect_to_login(client):
 
 def test_index(client):
     data = {
-        username = 'cobbler',
-        password = 'cobbler'
+        username: 'cobbler',
+        password: 'cobbler'
     }
 
     response = client.post(reverse('do_login'), data)
-    
+    # assert "Welcome to Cobbler" in response.content
