@@ -16,7 +16,9 @@ def test_index(client):
     # response = client.get( reverse('index') )
     data = {'username': 'cobbler', 'password': 'cobbler'}
     response = client.post(reverse('do_login'), data)
+    assert response['Location'] == '/cobbler_web'
 
+    response = client.get( reverse('index') )
     assert response.status_code == 200
     assert 'index.tmpl' in (t.name for t in response.templates)
     assert b'Welcome to <a href="https://cobbler.github.io/">Cobbler' in response.content
