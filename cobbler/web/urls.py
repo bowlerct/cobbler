@@ -10,9 +10,9 @@ from cobbler.web import views
 urlpatterns = [
     url(r'^$', views.index, name="index"),
 
-    url(r'^setting/list$', views.setting_list),
-    url(r'^setting/edit/(?P<setting_name>.+)$', views.setting_edit),
-    url(r'^setting/save$', views.setting_save),
+    url(r'^setting/list$', views.setting_list, name="setting_list"),
+    url(r'^setting/edit/(?P<setting_name>.+)$', views.setting_edit, name="setting_edit"),
+    url(r'^setting/save$', views.setting_save, name="setting_save"),
 
     url(r'^aifile/list(/(?P<page>\d+))?$', views.aifile_list),
     url(r'^aifile/edit$', views.aifile_edit, {'editmode': 'new'}),
