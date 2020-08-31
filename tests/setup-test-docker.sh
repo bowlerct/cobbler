@@ -39,6 +39,9 @@ make install
 cp /etc/cobbler/cobblerd.service /usr/lib/systemd/system/cobblerd.service
 cp /etc/cobbler/cobbler.conf /etc/apache2/conf.d/
 
+# modify django SECRET_KEY for tests
+sed -i s/SECRET_KEY.*/'SECRET_KEY\ =\ "qwertyuiopasdfghl;"'/ /usr/lib/python3.6/site-packages/cobbler/web/settings.py
+
 # Enable the services
 systemctl enable cobblerd apache2 tftp
 a2enmod version
