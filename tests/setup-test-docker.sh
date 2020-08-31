@@ -28,6 +28,7 @@ sed -e "s|/var/lib/tftpboot|/srv/tftpboot|g" -i cobbler/settings.py config/cobbl
 
 # Install testing frameworks
 pip3 install pytest-django
+pip3 install pytest-pythonpath
 
 # Install and upgrade all dependecys
 pip3 install --upgrade pip
