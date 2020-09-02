@@ -59,7 +59,7 @@ def test_snippet_list(login_web):
                                     "repo", "package", "mgmtclass", "file"])
 def test_generic_list(login_web, what):
     client = login_web()
-    response = client.get( reverse('what_list', {'what': what, 'page': '1'}) )
+    response = client.get( reverse('what_list', kwargs={'what': what, 'page': '1'}) )
 
     assert response.status_code == 200
     assert 'generic_list.tmpl' in (t.name for t in response.templates)
