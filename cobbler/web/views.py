@@ -1446,8 +1446,7 @@ def do_login(request):
         else:
             return HttpResponseRedirect("/cobbler_web")
     else:
-        return HttpResponseRedirect("/cobbler_web")
-        # return login(request, nextsite, message="Login failed, please try again")
+        return login(request, nextsite, message="Login failed, please try again")
 
 
 @require_POST
