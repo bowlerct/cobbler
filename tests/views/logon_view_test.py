@@ -24,7 +24,11 @@ def test_redirect_to_login_on_get(client, view):
 # test login
 
 def test_index(login_web):
-    client, response = login_web( reverse('index') )
+    # we don't use 'next' in order to fully test views.do_login
+    client, response = login_web()
+    assert response["location"] == '/cobbler_web'
+
+    response = client.get( reverse('index') )
 
     assert response.status_code == 200
     assert 'index.tmpl' in (t.name for t in response.templates)
