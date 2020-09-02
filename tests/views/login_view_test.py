@@ -21,6 +21,8 @@ def test_index(login_web):
     assert 'cobbler' == response.context['username']
 
 
+# Settings
+
 def test_settings_list(login_web):
     client = login_web()
     response = client.get( reverse('setting_list') )
@@ -32,3 +34,33 @@ def test_settings_list(login_web):
     settings = api.settings().to_dict()
     for k in settings.keys():
         assert k.encode('utf-8') in response.content
+
+# autoinstall files
+
+def test_aifile_list(login_web):
+    client = login_web()
+    response = client.get( reverse('aifile_list') )
+
+    assert 'aifile_list.tmpl' in (t.name for t in response.templates)
+    assert b'sample.ks' in response.content
+
+# snippet files
+
+def test_snippet_list(login_web):
+    client = login_web()
+    response = client.get( reverse('snippet_list') )
+
+    assert 'snippet_list.tmpl' in (t.name for t in response.templates)
+    assert 'cobbler_register' in response.content
+
+# generic lists
+
+@pytest.mark.parametrize("what", ["distro", "profile", "system", "image",
+                                    "repo", "package", "mgmtclass", "file"])
+def test_generic_list(login_web, what):
+    client = login_web()
+    response = client.get( reverse('what_list', {'what': what, 'page': '1'}) )
+
+    assert response.status_code == 200
+    assert 'generic_list.tmpl' in (t.name for t in response.templates)
+    assert b'Name' in response.content
