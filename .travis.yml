@@ -1,6 +1,5 @@
 dist: xenial
 language: generic
-cache: pip
 services:
   - docker
 branches:
