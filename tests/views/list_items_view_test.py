@@ -1,5 +1,4 @@
 import pytest
-
 from django.urls import reverse
 from cobbler import api as cobbler_api
 
@@ -54,7 +53,7 @@ def test_generic_list(login_web, what):
 
 
 def test_events_list(login_web):
-    # Call 'sync' first so there are logs for events check to succeed
+    # Call 'sync' first to ensure there are logs for events check to succeed
     client, response = login_web( reverse('index') )
     response = client.post( reverse('sync') )
     # redirects to task_created
