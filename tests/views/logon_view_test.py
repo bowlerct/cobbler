@@ -3,9 +3,10 @@ import pytest
 from django.urls import reverse
 
 
-# test authentication required
+# test authentication required for all views and urls
+# test login view and redirection
 
-# HTTP GET urls
+# HTTP GET methods
 
 # FIXME add edit urls as they use GET
 @pytest.mark.parametrize("what", [("index",[]), ("setting_list",[]), ("aifile_list",[]),
@@ -27,23 +28,36 @@ def test_redirect_to_login_on_get(client, what):
     assert 'login.tmpl' in (t.name for t in response.templates)
 
 
-# HTTPD POST urls
+# HTTPD POST methods
 
-# FIXME Add checks for POST methods to ensure login required
-# We do not need to supply POST data as the first thing
-# checked is if the user is logged in
-@pytest.mark.parametrize("what", [("setting_save", {}),
-                                ("aifile_save", {})])
+@pytest.mark.parametrize("what", [("setting_save", []),
+                                ("aifile_save", []),
+                                ("snippet_save", []),
+                                ("what_save", ['distro']),
+                                ("what_modifylist", ['distro', 'limit', '10']),
+                                ("what_remame", ['distro','RH8','RH8-x86_84']),
+                                ("what_copy", ['distro','RH8','RH8-copy']),
+                                ("what_delete", ['distro', 'RH8']),
+                                ("what_domulti", ['system', 'profile', 'profile']),
+                                ("buildiso", []),
+                                ("import_run", []),
+                                ("sync", []),
+                                ("reposync", []),
+                                ("hardlink", []),
+                                ("replicate", [])])
 def test_redirect_to_login_on_post(client, what):
     view, args = what
-    response = client.post( reverse(view), data=args )
+
+    # we do not need to post data as the first operation the
+    # views should do is to verify client is authenticated
+    response = client.post( reverse(view, args=args) )
 
     assert response.status_code == 200
     # not authenticated - ensure we are redirected to login page 
     assert 'login.tmpl' in (t.name for t in response.templates)
 
 
-# test login
+# test login operation
 
 def test_index(login_web):
     # we don't use 'next' in order to fully test views.do_login
