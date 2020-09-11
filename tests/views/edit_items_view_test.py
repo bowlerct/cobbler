@@ -2,8 +2,7 @@ import pytest
 from django.urls import reverse
 
 # Tests the correct views are displayed when editing items
-# We test templates, snippets, and settings only as we do not
-# have any test data for the rest of the view items
+# We test templates, snippets, and generic_edit
 
 def test_edit_aifile(login_web):
     client, response = login_web( reverse('aifile_edit', args=['default.ks']) )
@@ -21,7 +20,7 @@ def test_edit_snippet(login_web):
     assert b'Snippet: cobbler_register' in response.content
 
 
-def test_edit_setting(login_web):
+def test_generic_edit(login_web):
     client, response = login_web( reverse('setting_edit', args=['http_port']) )
 
     assert response.status_code == 200
