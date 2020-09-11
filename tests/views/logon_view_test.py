@@ -7,6 +7,7 @@ from django.urls import reverse
 
 # HTTP GET urls
 
+# FIXME add edit urls as they use GET
 @pytest.mark.parametrize("what", [("index",[]), ("setting_list",[]), ("aifile_list",[]),
                             ("snippet_list",[]), ("events",[]), ("import_prompt",[]),
                             ("check",[]), ("what_list", ["distro"]), ("what_list", ["profile"]),
@@ -25,9 +26,21 @@ def test_redirect_to_login_on_get(client, what):
     # not authenticated - ensure we are redirected to login page 
     assert 'login.tmpl' in (t.name for t in response.templates)
 
+
 # HTTPD POST urls
+
 # FIXME Add checks for POST methods to ensure login required
-# def test_redirect_to_login_on_post(client, what):
+# We do not need to supply POST data as the first thing
+# checked is if the user is logged in
+@pytest.mark.parametrize("what", [("setting_save", {}),
+                                ("aifile_save", {})])
+def test_redirect_to_login_on_post(client, what):
+    view, args = what
+    response = client.post( reverse(view), data=args )
+
+    assert response.status_code == 200
+    # not authenticated - ensure we are redirected to login page 
+    assert 'login.tmpl' in (t.name for t in response.templates)
 
 
 # test login
