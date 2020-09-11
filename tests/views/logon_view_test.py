@@ -3,22 +3,19 @@ import pytest
 from django.urls import reverse
 
 
-# test authentication required for all views and urls
+# test authentication required for all views
 # test login view and redirection
 
 # HTTP GET methods
 
-# FIXME add edit urls as they use GET
-@pytest.mark.parametrize("what", [("index",[]), ("setting_list",[]), ("aifile_list",[]),
-                            ("snippet_list",[]), ("events",[]), ("import_prompt",[]),
-                            ("check",[]), ("what_list", ["distro"]), ("what_list", ["profile"]),
-                            ("what_list", ["system"]), ("what_list", ["image"]), 
-                            ("what_list", ["repo"]), ("what_list", ["package"]),
-                            ("what_list", ["mgmtclass"]), ("what_list", ["file"]),
-                            ("snippet_list", []), ("aifile_list", []), ("setting_list", []),
-                            ("events",[]), ("events_log",["time"]), ("check", []),
-                            ("task_created", []), ("import_prompt", []),
-                            ("utils_random_mac", []), ("utils_random_mac_virttype", ["xenpv"])])
+@pytest.mark.parametrize("what", [
+    ("aifile_edit",['default.ks']), ("aifile_list",[]), ("check",[]),
+    ("events",[]), ("events_log",["time"]), ("import_prompt",[]),
+    ("index",[]), ("setting_edit",['http_port']), ("setting_list",[]),
+    ("snippet_list", []),  ("snippet_edit", ['addons.xml']),
+    ("task_created", []), ("utils_random_mac", []),
+    ("what_edit", ['distro', 'RH8']), ("what_list", ["distro"])
+])
 def test_redirect_to_login_on_get(client, what):
     view, args = what
     response = client.get( reverse(view, args=args) )
@@ -28,23 +25,19 @@ def test_redirect_to_login_on_get(client, what):
     assert 'login.tmpl' in (t.name for t in response.templates)
 
 
-# HTTPD POST methods
+# HTTP POST methods
 
-@pytest.mark.parametrize("what", [("setting_save", []),
-                                ("aifile_save", []),
-                                ("snippet_save", []),
-                                ("what_save", ['distro']),
-                                ("what_modifylist", ['distro', 'limit', '10']),
-                                ("what_remame", ['distro','RH8','RH8-x86_84']),
-                                ("what_copy", ['distro','RH8','RH8-copy']),
-                                ("what_delete", ['distro', 'RH8']),
-                                ("what_domulti", ['system', 'profile', 'profile']),
-                                ("buildiso", []),
-                                ("import_run", []),
-                                ("sync", []),
-                                ("reposync", []),
-                                ("hardlink", []),
-                                ("replicate", [])])
+@pytest.mark.parametrize("what", [
+    ("setting_save", []), ("aifile_save", []), ("snippet_save", []),
+    ("what_save", ['distro']),
+    ("what_modifylist", ['distro', 'limit', '10']),
+    ("what_remame", ['distro','RH8','RH8-x86_84']),
+    ("what_copy", ['distro','RH8','RH8-copy']),
+    ("what_delete", ['distro', 'RH8']),
+    ("what_domulti", ['system', 'profile', 'profile']),
+    ("buildiso", []), ("import_run", []), ("sync", []), ("reposync", []),
+    ("hardlink", []), ("replicate", [])
+])
 def test_redirect_to_login_on_post(client, what):
     view, args = what
 
