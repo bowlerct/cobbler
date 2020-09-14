@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 
 # Test action requests in view. These test the website operation 
-# and does not test that the requested background action succeeded
+# and do not test that the requested background action succeeded
 
 def test_check_action(login_web):
     client, response = login_web( reverse('check') )

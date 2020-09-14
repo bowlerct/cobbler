@@ -1,3 +1,4 @@
+
 from django.urls import path, re_path
 
 from cobbler.web import views

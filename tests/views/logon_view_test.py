@@ -28,7 +28,7 @@ def test_redirect_to_login_on_get(client, what):
 # HTTP POST methods
 
 @pytest.mark.parametrize("what", [
-    ("setting_save", []), ("aifile_save", []), ("snippet_save", []),
+    ("aifile_save", []), ("setting_save", []), ("snippet_save", []),
     ("what_save", ['distro']),
     ("what_modifylist", ['distro', 'limit', '10']),
     ("what_remame", ['distro','RH8','RH8-x86_84']),

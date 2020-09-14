@@ -2,7 +2,6 @@ import pytest
 from django.urls import reverse
 
 # Tests the correct views are displayed when editing items
-# We test templates, snippets, and generic_edit
 
 def test_edit_aifile(login_web):
     client, response = login_web( reverse('aifile_edit', args=['default.ks']) )
